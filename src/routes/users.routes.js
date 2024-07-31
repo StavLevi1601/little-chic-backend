@@ -1,5 +1,5 @@
 import express from "express";
-import { generateToken, verifyToken } from "../middleware/auth.js";
+import { generateAccessToken, authenticateToken } from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -18,12 +18,12 @@ router.get("/", async (req, res) => {
 
 router.get("/login", async (req, res) => {
   try {
-    const token = generateToken({
-      name: "Stav Levi",
-      email: "stav.levi@netnut.io",
-      id: 1,
+    const token = generateAccessToken({ username: "stav" });
+    res.json({
+      success: true,
+      message: "login working",
+      token: token,
     });
-    return res.status(200).json({ success: true, token });
   } catch (e) {
     res.json({
       success: false,
@@ -32,8 +32,8 @@ router.get("/login", async (req, res) => {
   }
 });
 
-router.get("/me", verifyToken, (req, res) => {
-  let token = req.query.token;
+router.get("/me", authenticateToken, (req, res) => {
+  const token = req.query.token;
   if (token)
     res.json({
       success: true,

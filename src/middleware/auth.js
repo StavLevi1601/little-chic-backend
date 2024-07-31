@@ -1,31 +1,26 @@
 import jwt from "jsonwebtoken";
-const SECRET_KEY = "fff";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const generateToken = (customer) => {
-  const payload = {
-    name: customer.name,
-    email: customer.email,
-    id: customer.id,
-  };
-
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+export const generateAccessToken = (customerName) => {
+  return jwt.sign(customerName, process.env.TOKEN_SECRET, {
+    expiresIn: "300s",
+  });
 };
 
-export const verifyToken = (req, res, next) => {
-  let token = req.query.token;
-  if (!token) {
-    return res.status(403).json({
-      success: false,
-      message: "Not working",
-    });
-  }
+export const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({
-        success: false,
-        message: err.message,
-      });
-    }
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err) => {
+    console.log(err);
+
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+
+    next();
   });
 };
