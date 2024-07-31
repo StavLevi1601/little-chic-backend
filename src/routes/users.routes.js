@@ -33,13 +33,10 @@ router.get("/login", async (req, res) => {
 });
 
 router.get("/me", authenticateToken, (req, res) => {
-  const token = req.query.token;
-  if (token)
-    res.json({
-      success: true,
-      message: "This is a protected route",
-      user: req.user,
-    });
+  res.json({
+    success: true,
+    message: "me working",
+  });
 });
 
 export default router;

@@ -4,7 +4,7 @@ dotenv.config();
 
 export const generateAccessToken = (customerName) => {
   return jwt.sign(customerName, process.env.TOKEN_SECRET, {
-    expiresIn: "300s",
+    expiresIn: "1800s",
   });
 };
 
@@ -15,12 +15,9 @@ export const authenticateToken = (req, res, next) => {
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err) => {
-    console.log(err);
-
     if (err) return res.sendStatus(403);
-
-    req.user = user;
-
     next();
   });
 };
+
+export default authenticateToken;
