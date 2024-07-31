@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 mongoose.connect(
-  "mongodb+srv://stavlevi1601:JHNb6XtLqyyaAIPr@cluster0.pvpztpj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  `mongodb+srv://${process.env.MONGO_DETAILS}.pvpztpj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 );
 app.use(express.json());
 
