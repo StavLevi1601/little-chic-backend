@@ -3,9 +3,13 @@ import usersRouter from "./routes/users.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import authenticateToken from "./middleware/auth.js";
 import cors from "cors";
+import mongoose from "mongoose";
 const app = express();
 const port = 3000;
 
+mongoose.connect(
+  "mongodb+srv://stavlevi1601:JHNb6XtLqyyaAIPr@cluster0.pvpztpj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
