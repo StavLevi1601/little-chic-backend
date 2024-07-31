@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { generateAccessToken } from "../middleware/auth.js";
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const token = generateAccessToken({ username: "stav" });
     res.json({
